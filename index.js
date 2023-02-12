@@ -98,6 +98,35 @@ app.post('/api/users/', (req, res) => {
   }); 
 });
 
+// PUT / UPDATE DATA 
+app.put('/api/users/:id', (req, res) => {
+  var reqID = req.params.id;
+  // REQUEST JSON DATA
+  var v_userid = req.body.user_id;
+  var v_fullname = req.body.fullname;
+  var v_username = req.body.username;
+  var v_email = req.body.email;
+  var v_phone = req.body.phone;
+  
+  var query = "UPDATE tb_user SET fullname='"+v_fullname+"', username='"+v_username+"', email='"+v_email+"', phone='"+v_phone+"' WHERE user_id='"+reqID+"'";
+  connection.query(query, (error, results) => { 
+    if (error) throw error;
+    res.status(200);
+    res.json(
+      { 
+          status: "SUCCESS",
+          data: {
+            user_id: v_userid,
+            fullname: v_fullname,
+            username: v_username,
+            email: v_email,
+            phone: v_phone
+          }
+      }
+    )
+  }); 
+});
+
 app.listen(port, () => {
   console.log("== SERVICE-AUTH ==");
   console.log(`server listening at http://localhost:${port}`)
