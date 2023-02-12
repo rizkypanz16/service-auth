@@ -127,6 +127,24 @@ app.put('/api/users/:id', (req, res) => {
   }); 
 });
 
+//DELETE DATA
+app.delete('/api/users/:id', (req, res) => {
+  var reqID = req.params.id;
+
+  var query = "DELETE FROM tb_user WHERE user_id='"+reqID+"'";
+  connection.query(query, (error, results) => { 
+    if (error) throw error;
+    res.status(200);
+    res.json(
+      { 
+          status: "SUCCESS",
+          data: []
+      }
+    )
+  });
+});
+
+
 app.listen(port, () => {
   console.log("== SERVICE-AUTH ==");
   console.log(`server listening at http://localhost:${port}`)
