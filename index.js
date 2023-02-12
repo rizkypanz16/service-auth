@@ -147,6 +147,6 @@ app.delete('/api/users/:id', (req, res) => {
 
 app.listen(port, () => {
   console.log("== SERVICE-AUTH ==");
-  console.log(`server listening at http://${process.env.HOSTIP}:${port}`)
+  console.log(`server listening at http://${process.env.AUTH_HOST}:${port}`)
 });
 
