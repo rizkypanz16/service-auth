@@ -72,14 +72,14 @@ app.get('/api/users/:id', (req, res) => {
 // POST DATA USER TYPE RAW JSON
 app.post('/api/users/', (req, res) => {
   // REQUEST JSON DATA
-  var v_userid = md5(req.body.user_id);
+  var v_userid = req.body.user_id;
   var v_fullname = req.body.fullname;
   var v_username = req.body.username;
   var v_email = req.body.email;
-  var v_password = md5(req.body.password);
+  var v_password = req.body.password;
   var v_phone = req.body.phone;
-
-  var query = "INSERT INTO tb_user (user_id, fullname, username, email, password, phone, created_at) SELECT * FROM (SELECT '"+v_userid+"', '"+v_username+"', '"+v_fullname+"', '"+v_email+"', '"+v_password+"', '"+v_phone+"', NOW()) AS tmp WHERE NOT EXISTS (SELECT user_id FROM tb_user WHERE user_id = '"+v_userid+"') LIMIT 1";
+  
+  var query = "INSERT INTO tb_user (user_id, fullname, username, email, password, phone, created_at) SELECT * FROM (SELECT '"+md5(v_userid)+"', '"+v_username+"', '"+v_fullname+"', '"+v_email+"', '"+md5(v_password)+"', '"+v_phone+"', NOW()) AS tmp WHERE NOT EXISTS (SELECT user_id FROM tb_user WHERE user_id = '"+md5(v_userid)+"') LIMIT 1";
   connection.query(query, (error, results) => { 
     if (error) throw error;
     // CHECK RECORD IF DUPLICATES
@@ -89,11 +89,11 @@ app.post('/api/users/', (req, res) => {
         { 
             status: "SUCCESS",
             data: {
-              user_id: v_userid,
+              user_id: md5(v_userid),
               fullname: v_fullname,
               username: v_username,
               email: v_email,
-              password: v_password,
+              password: md5(v_password),
               phone: v_phone,
               created_at: datetime
             }
